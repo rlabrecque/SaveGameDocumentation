@@ -1,0 +1,138 @@
+//--------------------------------------
+//--- 010 Editor v3.2.2 Binary Template
+//
+// File: Diddy Kong Racing.bt
+// Author: DaFox
+// Revision: 1
+// Purpose: Diddy Kong Racing Save game file format
+//--------------------------------------
+BigEndian();
+typedef enum <uint16> {
+    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+} E_INITIAL;
+
+typedef enum <byte> {
+    English, German, French, Japanese
+} E_LANGUAGE;
+
+typedef struct {
+    uint16 InitialPadding : 1;
+    E_INITIAL Initial1 : 5;
+    E_INITIAL Initial2 : 5;
+    E_INITIAL Initial3 : 5;
+} INITIALS;
+
+typedef struct  {        
+        uint16  checksum;
+        byte    unknown[0x23];
+        INITIALS initials;
+        byte unknown2[0x01];
+} SAVEENTRY;
+
+typedef struct {
+    byte checksum;
+    byte unknown[0x03];
+
+    byte UnknownOption : 1;
+    byte UnknownOption : 1;
+    byte UnknownOption : 1;
+    byte UnknownOption : 1;
+    byte UnknownOption : 1;
+    byte UnknownOption : 1;
+    byte SubtitleOption : 1;
+    byte UnknownOption : 1;
+
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    byte TTBeaten : 1;
+    E_LANGUAGE Language : 2;
+    byte DrumstickUnlocked : 1;
+    byte Adventure2Unlocked : 1;
+} SETTINGS;
+
+typedef struct {
+    uint16 time; // Divide by 60 to get seconds
+    INITIALS initials;
+} TIMETRIALENTRY;
+
+typedef struct {
+    uint16 checksum;
+    TIMETRIALENTRY Fossil_Canyon_Car;
+	TIMETRIALENTRY Fossil_Canyon_Hover;
+	TIMETRIALENTRY Fossil_Canyon_Plane;
+	TIMETRIALENTRY Pirate_Lagoon_Hover;
+	TIMETRIALENTRY Ancient_Lake_Car;
+	TIMETRIALENTRY Ancient_Lake_Hover;
+	TIMETRIALENTRY Ancient_Lake_Plane;
+	TIMETRIALENTRY Walrus_Cove_Car;
+	TIMETRIALENTRY Walrus_Cove_Hover;
+	TIMETRIALENTRY Hot_Top_Volcano_Hover;
+	TIMETRIALENTRY Hot_Top_Volcano_Plane;
+	TIMETRIALENTRY Whale_Bay_Hover;
+	TIMETRIALENTRY Snowball_Valley_Car;
+	TIMETRIALENTRY Snowball_Valley_Hover;
+	TIMETRIALENTRY Crescent_Island_Car;
+	TIMETRIALENTRY Crescent_Island_Hover;
+	TIMETRIALENTRY Everfrost_Peak_Car;
+	TIMETRIALENTRY Everfrost_Peak_Hover;
+	TIMETRIALENTRY Everfrost_Peak_Plane;
+	TIMETRIALENTRY Spaceport_Alpha_Car;
+	TIMETRIALENTRY Spaceport_Alpha_Hover;
+	TIMETRIALENTRY Spaceport_Alpha_Plane;
+	TIMETRIALENTRY Spacedust_Alley_Car;
+	TIMETRIALENTRY Spacedust_Alley_Hover;
+	TIMETRIALENTRY Spacedust_Alley_Plane;
+	TIMETRIALENTRY Greenwood_Village_Car;
+	TIMETRIALENTRY Greenwood_Village_Hover;
+	TIMETRIALENTRY Boulder_Canyon_Hover;
+	TIMETRIALENTRY Windmill_Plains_Car;
+	TIMETRIALENTRY Windmill_Plains_Hover;
+	TIMETRIALENTRY Windmill_Plains_Plane;
+	TIMETRIALENTRY Frosty_Village_Car;
+	TIMETRIALENTRY Frosty_Village_Hover;
+	TIMETRIALENTRY Frosty_Village_Plane;
+	TIMETRIALENTRY Jungle_Falls_Car;
+	TIMETRIALENTRY Jungle_Falls_Hover;
+	TIMETRIALENTRY Jungle_Falls_Plane;
+	TIMETRIALENTRY Treasure_Caves_Car;
+	TIMETRIALENTRY Treasure_Caves_Hover;
+	TIMETRIALENTRY Treasure_Caves_Plane;
+	TIMETRIALENTRY Haunted_Woods_Car;
+	TIMETRIALENTRY Haunted_Woods_Hover;
+	TIMETRIALENTRY Darkmoon_Caverns_Car;
+	TIMETRIALENTRY Darkmoon_Caverns_Hover;
+	TIMETRIALENTRY Star_City_Car;
+	TIMETRIALENTRY Star_City_Hover;
+	TIMETRIALENTRY Star_City_Plane;
+	byte unknown[0x02];
+} TIMETRIAL;
+
+struct FILE {
+    struct SAVEENTRY AdventureA;
+    struct SAVEENTRY AdventureB;
+    struct SAVEENTRY AdventureC;
+
+    struct SETTINGS Settings;
+    struct TIMETRIAL TimeTrialLaps;
+    struct TIMETRIAL TimeTrialTotals;
+    byte padding[0x600];
+} file;
