@@ -3,12 +3,12 @@
 //
 // File: Diddy Kong Racing.bt
 // Author: DaFox
-// Revision: 1
+// Revision: 2
 // Purpose: Diddy Kong Racing Save game file format
 //--------------------------------------
 BigEndian();
 typedef enum <uint16> {
-    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
+    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, PER, QUE, SPA
 } E_INITIAL;
 
 typedef enum <byte> {
@@ -23,24 +23,41 @@ typedef struct {
 } INITIALS;
 
 typedef struct  {        
-        uint16  checksum;
-        byte    unknown[0x23];
-        INITIALS initials;
-        byte unknown2[0x01];
+    uint16  checksum;
+    byte unknown[12];
+    byte baloons : 7; // Size is likely wrong.
+    byte unknown2 : 1; // Make sure that we have every bit accounted for.
+    byte unknown3[5];
+
+    byte unknown4 : 1;
+    byte FreeBaloonCliff : 1;
+    byte unknown5 : 3;
+    byte FreeBaloonRamp : 1;
+    byte unknown6 : 2;
+
+    byte unknown7 : 1;
+    byte FreeBaloonWaterfall : 1;
+    byte unknown8 : 3;
+    byte FreeBaloonOcean : 1;
+    byte unknown9 : 2;
+
+    byte unknown10[14];
+
+    byte unknown11 : 5;
+    byte Adventure2 : 1;
+    byte unknown12 : 2;
+
+    INITIALS initials;
+    byte unknown13[1];
 } SAVEENTRY;
 
 typedef struct {
     byte checksum;
-    byte unknown[0x03];
+    byte unknown[3];
 
-    byte UnknownOption : 1;
-    byte UnknownOption : 1;
-    byte UnknownOption : 1;
-    byte UnknownOption : 1;
-    byte UnknownOption : 1;
-    byte UnknownOption : 1;
+    byte unknown2 : 6;
     byte SubtitleOption : 1;
-    byte UnknownOption : 1;
+    byte unknown3 : 1;
 
     byte TTBeaten : 1;
     byte TTBeaten : 1;
@@ -60,17 +77,17 @@ typedef struct {
     byte TTBeaten : 1;
     byte TTBeaten : 1;
 
-    byte TTBeaten : 1;
-    byte TTBeaten : 1;
-    byte TTBeaten : 1;
-    byte TTBeaten : 1;
+    byte TTBeatenOnWorld : 1;
+    byte TTBeatenOnWorld : 1;
+    byte TTBeatenOnWorld : 1;
+    byte TTBeatenOnWorld : 1;
     E_LANGUAGE Language : 2;
     byte DrumstickUnlocked : 1;
     byte Adventure2Unlocked : 1;
 } SETTINGS;
 
 typedef struct {
-    uint16 time; // Divide by 60 to get seconds
+    uint16 time;
     INITIALS initials;
 } TIMETRIALENTRY;
 
@@ -123,7 +140,7 @@ typedef struct {
 	TIMETRIALENTRY Star_City_Car;
 	TIMETRIALENTRY Star_City_Hover;
 	TIMETRIALENTRY Star_City_Plane;
-	byte unknown[0x02];
+	byte unknown[2];
 } TIMETRIAL;
 
 struct FILE {
@@ -134,5 +151,5 @@ struct FILE {
     struct SETTINGS Settings;
     struct TIMETRIAL TimeTrialLaps;
     struct TIMETRIAL TimeTrialTotals;
-    byte padding[0x600];
+    byte padding[1536];
 } file;
