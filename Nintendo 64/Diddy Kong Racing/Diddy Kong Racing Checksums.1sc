@@ -1,0 +1,65 @@
+//--------------------------------------
+//--- 010 Editor v3.2.2 Script File
+//
+// File: Diddy Kong Racing Checksums
+// Author: DaFox
+// Revision: 1
+// Purpose: Diddy Kong Racing Save Game Checksum Algorithms
+//--------------------------------------
+
+void SaveEntryChecksum(ubyte position) {    
+    switch(position) {
+        case 1  : uint16 offset = startof(file.AdventureA); break; // 0
+        case 2  : uint16 offset = startof(file.AdventureB); break; // 40
+        case 3  : uint16 offset = startof(file.AdventureC); break; // 80
+        default : return;
+    }
+    offset += sizeof(uint16); // Ignore the checksum itself.
+
+    uint16 checksum = 5;
+    uint16 i = 0;
+    while(i < 38) {
+        checksum += ReadUByte(i + offset);
+        ++i;
+    }
+
+    Printf("SAVEENTRY %d Checksum: %04X (%d)\n", position, checksum, (int)checksum);
+}
+
+void SettingsChecksum() {
+    uint16 offset = startof(file.Settings); // 120
+    offset += sizeof(ubyte); // Ignore the checksum itself.
+
+    uint16 checksum = 5;
+    ubyte i = 0;
+    while(i < 7) {
+	    checksum += ((ReadUByte(i + offset) & 0xF0) >> 4) + (ReadUByte(i + offset) & 0x0F);
+        ++i;
+    }
+    Printf("SETTINGS Checksum: %04X (%d)\n", checksum, (int)checksum);
+}
+
+void TimeTrialChecksum(ubyte position) {
+    switch(position) {
+        case 1  : uint16 offset = startof(file.TimeTrialLaps); break; // 128
+        case 2  : uint16 offset = startof(file.TimeTrialTotals); break; // 320
+        default : return;
+    }
+    offset += sizeof(uint16); // Ignore the checksum itself.
+
+    uint16 checksum = 5;
+    uint16 i = 0;
+    while(i < 190) {
+        checksum += ReadUByte(i + offset);
+        ++i;
+    }
+
+    Printf("TIMETRIAL %d Checksum: %04X (%d)\n", position, checksum, (int)checksum);
+}
+
+SaveEntryChecksum(1);
+SaveEntryChecksum(2);
+SaveEntryChecksum(3);
+SettingsChecksum();
+TimeTrialChecksum(1);
+TimeTrialChecksum(2);
