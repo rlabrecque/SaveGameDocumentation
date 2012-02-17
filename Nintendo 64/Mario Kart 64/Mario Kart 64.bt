@@ -1,0 +1,121 @@
+//--------------------------------------
+//--- 010 Editor v3.2.2 Binary Template
+//
+// File: Mario Kart 64.bt
+// Author: DaFox
+// Revision: 1
+// Purpose: Mario Kart 64 Save Game File Format
+//--------------------------------------
+LittleEndian();
+BitfieldDisablePadding();
+typedef enum {
+    MARIO, LUIGI, YOSHI, TOAD, DK, WARIO, PEACH, BOWSER
+} CHARACTER;
+
+typedef struct {    
+    uint32 time : 20;
+    CHARACTER character : 4;
+} TIMECHAR;
+
+typedef struct {
+    TIMECHAR BestRec1;
+    TIMECHAR BestRec2;
+    TIMECHAR BestRec3;
+    TIMECHAR BestRec4;
+    TIMECHAR BestRec5;
+    TIMECHAR BestLap;
+    ubyte EnableCourseErasing;
+    ubyte unknown[4];
+    ubyte checksum;
+} COURSE;
+
+typedef struct {
+    ubyte _50ccMushroomCupTrophy : 2;
+    ubyte _50ccFlowerCup1Trophy : 2;
+    ubyte _50ccStarCup1Trophy : 2;
+    ubyte _50ccSpecialCup1Trophy : 2;
+
+    ubyte _100ccMushroomCupTrophy : 2;
+    ubyte _100ccFlowerCupTrophy : 2;
+    ubyte _100ccStarCupTrophy : 2;
+    ubyte _100ccSpeciaCup1Trophy : 2;
+
+    ubyte _150ccMushroomCupTrophy : 2;
+    ubyte _150ccFlowerCupTrophy : 2;
+    ubyte _150ccStarCupTrophy : 2;
+    ubyte _150ccSpeciaCup1Trophy : 2;
+
+    ubyte ExtraMushroomCupTrophy : 2;
+    ubyte ExtraFlowerCupTrophy : 2;
+    ubyte ExtraStarCupTrophy : 2;
+    ubyte ExtraSpeciaCup1Trophy : 2;
+
+    ubyte SoundSettings;
+    ubyte unknown;
+    ubyte checksum;
+    ubyte checksum2;
+} TROPHYSETTINGS;
+
+typedef struct {
+    TIMECHAR LuigisRacewayBestTriLap;
+    TIMECHAR MooMooFarmBestTriLap;
+    TIMECHAR KoopaTroopaBeachBestTriLap;	
+    TIMECHAR KalimariDesertBestTriLap;
+    TIMECHAR ToadsTurnpikeBestTriLap;
+    TIMECHAR FrappeSnowlandBestTriLap;
+    TIMECHAR ChocoMountainBestTriLap;
+    TIMECHAR MarioRacewayBestTriLap;
+    TIMECHAR LuigisRacewayBestSingle;
+    TIMECHAR MooMooFarmBestSingle;
+    TIMECHAR KoopaTroopaBeachBestSingle;
+    TIMECHAR KalimariDesertBestSingle;
+    TIMECHAR ToadsTurnpikeBestSingle;
+    TIMECHAR FrappeSnowlandBestSingle;
+    TIMECHAR ChocoMountainBestSingle;
+    TIMECHAR MarioRacewayBestSingle;
+    ubyte unknown[6];
+    ubyte checksum;
+    ubyte checksum2;
+    TIMECHAR WarioStadiumBestTriLap;
+    TIMECHAR SherbetLandBestTriLap;
+    TIMECHAR RoyalRacewayBestTriLap;
+    TIMECHAR BowsersCastleBestTriLap;
+    TIMECHAR DKsJungleParkwayBestTriLap;
+    TIMECHAR YoshiValleyBestTriLap;
+    TIMECHAR BansheeBoardwalkBestTriLap;
+    TIMECHAR RainbowRoadBestTriLap;
+    TIMECHAR WarioStadiumBestSingle;
+    TIMECHAR SherbetLandBestSingle;
+    TIMECHAR RoyalRacewayBestSingle;
+    TIMECHAR BowsersCastleBestSingle;
+    TIMECHAR DKsJungleParkwayBestSingle;
+    TIMECHAR YoshiValleyBestSingle;
+    TIMECHAR BansheeBoardwalkBestSingle;
+    TIMECHAR RainbowRoadBestSingle;
+    ubyte unknown2[6];
+    ubyte checksum;
+    ubyte checksum2;
+} TOPTIMES;
+
+struct FILE {
+    COURSE LuigisRaceway;
+    COURSE MooMooFarm;
+	COURSE KoopaTroopaBeach;
+	COURSE KalimariDesert;
+	COURSE ToadsTurnpike;
+	COURSE FrappeSnowland;
+	COURSE ChocoMountain;
+	COURSE MarioRaceway;
+	COURSE WarioStadium;
+	COURSE SherbetLand;
+	COURSE RoyalRaceway;
+	COURSE BowsersCastle;
+	COURSE DKsJungleParkway;
+	COURSE YoshiValley;
+	COURSE BansheeBoardwalk;
+	COURSE RainbowRoad;
+    TROPHYSETTINGS TrophySettings;
+    TOPTIMES TopTimes;
+    TROPHYSETTINGS TrophySettings2;
+    ubyte padding[1536];
+} file;
