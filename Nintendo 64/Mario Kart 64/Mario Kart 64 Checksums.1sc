@@ -1,0 +1,89 @@
+//--------------------------------------
+//--- 010 Editor v3.2.2 Script File
+//
+// File: Mario Kart 64 Checksums
+// Author: DaFox
+// Revision: 1
+// Purpose: Mario Kart 64 Save Game Checksum Algorithms
+//--------------------------------------
+
+void CourseChecksum(uint16 offset) {
+    ubyte checksum = 0;
+    int i = 0;
+    int x = 0;
+    while(i < 7) {
+	    for(x = 0; x < 3; x++) { // Recursive while() bails on the internal bailing.
+		    checksum += ReadUByte(offset + i * 3 + x) * (x + 1) + i;
+        }
+        ++i;
+    }
+
+    Printf("COURSE Checksum: 0x%02X (%d)\n", checksum, (int)checksum);
+};
+
+void TrophySettingsChecksum(uint16 offset) {
+    ubyte checksum = 0;
+    int i = 0;
+    while(i < 5) {
+        checksum += (ReadUByte(offset + i) + 1) * (i + 1) + i;
+        ++i;
+    }
+
+    ubyte checksum2 = checksum + 0x5A;
+
+    Printf("TROPHYSETTINGS Checksum: 0x%02X (%d) Checksum2: 0x%02X (%d)\n", checksum, (int)checksum, checksum2, (int)checksum2);
+};
+
+void TopTimesChecksum1() {
+    uint16 offset = startof(file.TopTimes);
+    ubyte checksum = 0;
+    int i = 0;
+    int x = 0;
+    while(i < 3) {
+	    for (x = 0; x < 0x11; x++) {
+		    checksum += (ReadUByte(offset + i * 0x11 + x) + 1) * (i + 1) + x;
+	    }
+        ++i;
+    }
+    ubyte checksum2 = checksum + 0x5A;
+    Printf("TOPTIMES Checksum: 0x%02X (%d) Checksum2: 0x%02X (%d)\n", checksum, (int)checksum, checksum2, (int)checksum2);
+}
+
+
+void TopTimesChecksum2() {
+    uint16 offset = startof(file.TopTimes);
+    ubyte checksum = 0;
+    int i = 0;
+    int x = 0;
+    while(i < 3) {
+	    for (x = 0; x < 0x11; x++) {
+		    checksum += (ReadUByte(offset + i * 17 + x + 56) + 1) * (i + 1) + x;
+	    }
+        ++i;
+    }
+    ubyte checksum2 = checksum + 0x5A;
+    Printf("TOPTIMES Checksum3: 0x%02X (%d) Checksum4: 0x%02X (%d)\n", checksum, (int)checksum, checksum2, (int)checksum2);
+}
+
+CourseChecksum(startof(file.LuigisRaceway));
+CourseChecksum(startof(file.MooMooFarm));
+CourseChecksum(startof(file.KoopaTroopaBeach));
+CourseChecksum(startof(file.KalimariDesert));
+CourseChecksum(startof(file.ToadsTurnpike));
+CourseChecksum(startof(file.FrappeSnowland));
+CourseChecksum(startof(file.ChocoMountain));
+CourseChecksum(startof(file.MarioRaceway));
+CourseChecksum(startof(file.WarioStadium));
+CourseChecksum(startof(file.SherbetLand));
+CourseChecksum(startof(file.RoyalRaceway));
+CourseChecksum(startof(file.BowsersCastle));
+CourseChecksum(startof(file.DKsJungleParkway));
+CourseChecksum(startof(file.YoshiValley));
+CourseChecksum(startof(file.BansheeBoardwalk));
+CourseChecksum(startof(file.RainbowRoad));
+
+TrophySettingsChecksum(startof(file.TrophySettings));
+TrophySettingsChecksum(startof(file.TrophySettings2));
+
+TopTimesChecksum1();
+TopTimesChecksum2();
