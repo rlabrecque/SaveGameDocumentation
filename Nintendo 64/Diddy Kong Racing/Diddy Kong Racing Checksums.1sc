@@ -3,17 +3,11 @@
 //
 // File: Diddy Kong Racing Checksums
 // Author: DaFox
-// Revision: 1
+// Revision: 2
 // Purpose: Diddy Kong Racing Save Game Checksum Algorithms
 //--------------------------------------
 
-void SaveEntryChecksum(ubyte position) {    
-    switch(position) {
-        case 1  : uint16 offset = startof(file.AdventureA); break; // 0
-        case 2  : uint16 offset = startof(file.AdventureB); break; // 40
-        case 3  : uint16 offset = startof(file.AdventureC); break; // 80
-        default : return;
-    }
+void SaveEntryChecksum(uint16 offset) {    
     offset += sizeof(uint16); // Ignore the checksum itself.
 
     uint16 checksum = 5;
@@ -23,7 +17,7 @@ void SaveEntryChecksum(ubyte position) {
         ++i;
     }
 
-    Printf("SAVEENTRY %d Checksum: %04X (%d)\n", position, checksum, (int)checksum);
+    Printf("SAVEENTRY %d Checksum: 0x%04X (%d)\n", position, checksum, (int)checksum);
 }
 
 void SettingsChecksum() {
@@ -36,15 +30,10 @@ void SettingsChecksum() {
 	    checksum += ((ReadUByte(i + offset) & 0xF0) >> 4) + (ReadUByte(i + offset) & 0x0F);
         ++i;
     }
-    Printf("SETTINGS Checksum: %04X (%d)\n", checksum, (int)checksum);
+    Printf("SETTINGS Checksum: 0x%04X (%d)\n", checksum, (int)checksum);
 }
 
-void TimeTrialChecksum(ubyte position) {
-    switch(position) {
-        case 1  : uint16 offset = startof(file.TimeTrialLaps); break; // 128
-        case 2  : uint16 offset = startof(file.TimeTrialTotals); break; // 320
-        default : return;
-    }
+void TimeTrialChecksum(uint16 offset) {
     offset += sizeof(uint16); // Ignore the checksum itself.
 
     uint16 checksum = 5;
@@ -54,12 +43,12 @@ void TimeTrialChecksum(ubyte position) {
         ++i;
     }
 
-    Printf("TIMETRIAL %d Checksum: %04X (%d)\n", position, checksum, (int)checksum);
+    Printf("TIMETRIAL %d Checksum: 0x%04X (%d)\n", position, checksum, (int)checksum);
 }
 
-SaveEntryChecksum(1);
-SaveEntryChecksum(2);
-SaveEntryChecksum(3);
+SaveEntryChecksum(startof(file.AdventureA)); // 0
+SaveEntryChecksum(startof(file.AdventureB)); // 40
+SaveEntryChecksum(startof(file.AdventureC)); // 80
 SettingsChecksum();
-TimeTrialChecksum(1);
-TimeTrialChecksum(2);
+TimeTrialChecksum(startof(file.TimeTrialLaps)); // 128
+TimeTrialChecksum(startof(file.TimeTrialTotals)); // 320
