@@ -3,7 +3,7 @@
 //
 // File: Mario Kart 64.bt
 // Author: DaFox
-// Revision: 1
+// Revision: 2
 // Purpose: Mario Kart 64 Save Game File Format
 //--------------------------------------
 LittleEndian();
@@ -11,6 +11,10 @@ BitfieldDisablePadding();
 typedef enum {
     MARIO, LUIGI, YOSHI, TOAD, DK, WARIO, PEACH, BOWSER
 } CHARACTER;
+
+typedef enum {
+    NONE, BRONZE, SILVER, GOLD
+} TROPHY;
 
 typedef struct {    
     uint32 time : 20;
@@ -30,25 +34,25 @@ typedef struct {
 } COURSE;
 
 typedef struct {
-    ubyte _50ccMushroomCupTrophy : 2;
-    ubyte _50ccFlowerCup1Trophy : 2;
-    ubyte _50ccStarCup1Trophy : 2;
-    ubyte _50ccSpecialCup1Trophy : 2;
+    TROPHY MushroomCup50cc : 2;
+    TROPHY FlowerCup50cc : 2;
+    TROPHY StarCup50cc : 2;
+    TROPHY SpecialCup50cc : 2;
 
-    ubyte _100ccMushroomCupTrophy : 2;
-    ubyte _100ccFlowerCupTrophy : 2;
-    ubyte _100ccStarCupTrophy : 2;
-    ubyte _100ccSpeciaCup1Trophy : 2;
+    TROPHY MushroomCup100cc : 2;
+    TROPHY FlowerCup100cc : 2;
+    TROPHY StarCup100cc : 2;
+    TROPHY SpeciaCup100cc : 2;
 
-    ubyte _150ccMushroomCupTrophy : 2;
-    ubyte _150ccFlowerCupTrophy : 2;
-    ubyte _150ccStarCupTrophy : 2;
-    ubyte _150ccSpeciaCup1Trophy : 2;
+    TROPHY MushroomCup150cc : 2;
+    TROPHY FlowerCup150cc : 2;
+    TROPHY StarCup150cc : 2;
+    TROPHY SpeciaCup150cc : 2;
 
-    ubyte ExtraMushroomCupTrophy : 2;
-    ubyte ExtraFlowerCupTrophy : 2;
-    ubyte ExtraStarCupTrophy : 2;
-    ubyte ExtraSpeciaCup1Trophy : 2;
+    TROPHY MushroomCupExtra : 2;
+    TROPHY FlowerCupExtra : 2;
+    TROPHY StarCupExtra : 2;
+    TROPHY SpeciaCupExtra : 2;
 
     ubyte SoundSettings;
     ubyte unknown;
