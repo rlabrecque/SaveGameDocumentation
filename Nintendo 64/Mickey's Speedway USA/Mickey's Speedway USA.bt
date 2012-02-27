@@ -1,0 +1,66 @@
+//--------------------------------------
+//--- 010 Editor v3.2.2 Binary Template
+//
+// File: Mickey's Speedway USA.bt
+// Author: DaFox
+// Revision: 1
+// Purpose: Mickey's Speedway USA Save Game File Format
+//--------------------------------------
+BigEndian();
+BitfieldDisablePadding();
+typedef enum {
+    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, QUES, EXCL, STAR, UNK1, UNK2, PER
+} E_INITIAL;
+
+typedef enum {
+    MICKEY, MINNIE, DONALD, DAISY, GOOFY, PETE, HUEY, DEWEY, LOUIE, LUDVIG
+} E_CHARACTER;
+
+typedef struct {
+    E_INITIAL FirstInitial : 5;
+    E_INITIAL SecondInitial : 5;
+    E_INITIAL ThirdInitial : 5;
+    uint time : 18;
+    E_CHARACTER Character : 4;
+} TIMETRIALENTRY;
+
+typedef struct {
+    TIMETRIALENTRY FirstPlace;
+    TIMETRIALENTRY SecondPlace;
+    TIMETRIALENTRY ThirdPlace;
+    TIMETRIALENTRY BestLap;
+} COURSETIME;
+
+struct FILE {
+    COURSETIME ChicagoTimeTrial;
+    COURSETIME MalibuTimeTrial;
+    COURSETIME DakotaTimeTrial;
+    COURSETIME AlaskaTimeTrial;
+    COURSETIME SeattleTimeTrial;
+    COURSETIME NewYorkTimeTrial;
+    COURSETIME GrandCanyonTimeTrial;
+    COURSETIME PhiladelphiaTimeTrial;
+    COURSETIME EvergladesTimeTrial;
+    COURSETIME YellowstoneTimeTrial;
+    COURSETIME ColoradoTimeTrial;
+    COURSETIME IndianapolisTimeTrial;
+    COURSETIME Unknown;
+    COURSETIME LasVegasTimeTrial;
+    COURSETIME NewMexicoTimeTrial;
+    COURSETIME TexasTimeTrial;
+    COURSETIME LosAngelesTimeTrial;
+    COURSETIME HawaiiTimeTrial;
+    COURSETIME SanFranciscoTimeTrial;
+    COURSETIME NewOrleansTimeTrial;
+    COURSETIME WashingtonDCTimeTrial;
+    COURSETIME OregonTimeTrial;
+    ubyte unknown[51];
+    ubyte speechsettings; //bit1 = Commentary, bit2 = DriverSpeech 
+    ubyte unknown2;
+    uint16 soundeffectsvol; //0, 8, 20, 24
+    uint16 musicvol;
+    ubyte unknown3[31];
+    ubyte checksum;
+    ubyte unknown4[16];
+    ubyte padding[1536];
+} file;
