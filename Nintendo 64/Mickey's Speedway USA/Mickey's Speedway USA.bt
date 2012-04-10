@@ -3,7 +3,7 @@
 //
 // File: Mickey's Speedway USA.bt
 // Author: DaFox
-// Revision: 1
+// Revision: 2
 // Purpose: Mickey's Speedway USA Save Game File Format
 //--------------------------------------
 BigEndian();
@@ -54,13 +54,21 @@ struct FILE {
     COURSETIME NewOrleansTimeTrial;
     COURSETIME WashingtonDCTimeTrial;
     COURSETIME OregonTimeTrial;
-    ubyte unknown[51];
+    ubyte unknowntest[43];
+    uint16 checksum;
+    ubyte unknown[4];
+    ubyte containshiddenparts; // bit8: 1st. bit1: 2nd. bit2: 3rd bit3: 4th
+    
+    ubyte unknownbits : 5;
+    ubyte UnlockedNewOrleans : 1;
+    ubyte unknownbits2 : 2;
+
     ubyte speechsettings; //bit1 = Commentary, bit2 = DriverSpeech 
     ubyte unknown2;
     uint16 soundeffectsvol; //0, 8, 20, 24
     uint16 musicvol;
-    ubyte unknown3[31];
-    ubyte checksum;
-    ubyte unknown4[16];
+    ubyte unknown3[14];
+    uint16 checksum2;
+    ubyte unknown4[32];
     ubyte padding[1536];
 } file;
